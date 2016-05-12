@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ControlAlien : MonoBehaviour
 {
+
+	private float velocidad = 20f;
 	// Conexión al marcador, para poder actualizarlo
 	public GameObject marcador;
 
@@ -19,7 +21,20 @@ public class ControlAlien : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	
+		
+		// Calculamos la anchura visible de la cámara en pantalla
+		float distanciaHorizontal = Camera.main.orthographicSize * Screen.width / Screen.height;
+
+		// Calculamos el límite izquierdo y el derecho de la pantalla
+		float limiteIzq = -1.0f * distanciaHorizontal;
+		float limiteDer = 1.0f * distanciaHorizontal;
+
+		if (transform.position.x < limiteDer) {
+			transform.Translate (Vector2.right * velocidad * Time.deltaTime);
+		} else {
+			transform.Translate (Vector2.down * 0.5f);
+		}
+			
 	}
 
 	void OnCollisionEnter2D (Collision2D coll)
