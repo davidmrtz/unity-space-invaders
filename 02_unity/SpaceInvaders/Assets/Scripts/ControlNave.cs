@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ControlNave : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class ControlNave : MonoBehaviour
 
 	// Acceso al prefab del disparo
 	public Rigidbody2D disparo;
+
+	public Rigidbody2D explosionazul;
 
 	// Use this for initialization
 	void Start ()
@@ -57,6 +60,12 @@ public class ControlNave : MonoBehaviour
 		}
 	}
 
+	IEnumerator Esperar() {
+
+		yield return new WaitForSeconds(5);
+
+	}
+
 	void disparar ()
 	{
 		// Hacemos copias del prefab del disparo y las lanzamos
@@ -66,11 +75,26 @@ public class ControlNave : MonoBehaviour
 		d.gravityScale = 0;
 
 		// Posición de partida, en la punta de la nave
-		d.transform.Translate (Vector2.up * 1.0f);
-		d.transform.Translate (Vector2.left * 0.04f);
+		d.transform.Translate (Vector2.up * 0.5f);
+
 
 		// Lanzarlo
 		d.AddForce (Vector2.up * fuerza, ForceMode2D.Impulse);	
+	}
+
+	void OnCollisionEnter2D (Collision2D coll) {
+	
+		if (coll.gameObject.tag == "alienazul" || coll.gameObject.tag == "alienrojo" || coll.gameObject.tag == "aliennegro" || coll.gameObject.tag == "alienmarron") {
+			Rigidbody2D x = (Rigidbody2D)Instantiate (explosionazul, transform.position, transform.rotation);		
+
+			Destroy (gameObject);
+
+			Esperar ();
+
+
+			SceneManager.LoadScene (1);
+		}
+	
 	}
 
 }

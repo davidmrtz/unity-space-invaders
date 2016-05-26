@@ -13,7 +13,7 @@ public class ControlCamara : MonoBehaviour
 	void Start ()
 	{
 		// Conectamos con la instancia que hemos creado en el editor
-		alien = GameObject.Find ("Alien1");
+		alien = GameObject.Find ("AlienRojo");
 	}
 	
 	// Update is called once per frame
